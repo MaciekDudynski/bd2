@@ -16,50 +16,54 @@
 {% endblock %}
 
 {% block content %}
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h3>{{ body_content }}</h3>
 
-    <h3>{{ body_content }}</h3>
-
-    {% for t in tables %}
-        <table class="table table-bordered">
-            <tr>
-                {% for h in t.headers %}
-                    <th>{{ h }}</th>
-                {% endfor %}
-            </tr>
-            {% for row in t.content %}
-                <tr>
-                    {% for v in row %}
-                        <td>{{ v }}</td>
+            {% for t in tables %}
+                <table class="table table-bordered">
+                    <tr>
+                        {% for h in t.headers %}
+                            <th>{{ h }}</th>
+                        {% endfor %}
+                    </tr>
+                    {% for row in t.content %}
+                        <tr>
+                            {% for v in row %}
+                                <td>{{ v }}</td>
+                            {% endfor %}
+                        </tr>
                     {% endfor %}
-                </tr>
+                </table>
             {% endfor %}
-        </table>
-    {% endfor %}
+        </div>
+        <div class="col-md-6 col-md-offset-3">
+            {% if inputs|length > 0 %}
+                <form class="form-horizontal" action="{{ request.path }}" method="post">
+                    {% for i in inputs %}
+                        <div class="form-group">
+                            <label for="input{{ i.label }}" class="col-sm-2 control-label">{{ i.label }}</label>
+                            <div class="col-sm-10">
+                                <input type="{{ i.type }}"
+                                       {% if i.step %} step="{{ i.step }}" {% endif %}
+                                       {% if i.min %} min="{{ i.min }}" {% endif %}
+                                       {% if i.max %} max="{{ i.max }}" {% endif %}
+                                       class="form-control"
+                                       id="input{{ i.label }}"
+                                       name="input{{ i.label }}"
+                                       placeholder="{{ i.label }}">
+                            </div>
+                        </div>
+                    {% endfor %}
 
-    {% if inputs|length > 0 %}
-        <form class="form-horizontal" action="{{ request.path }}" method="post">
-            {% for i in inputs %}
-                <div class="form-group">
-                    <label for="input{{ i.label }}" class="col-sm-2 control-label">{{ i.label }}</label>
-                    <div class="col-sm-10">
-                        <input type="{{ i.type }}"
-                               {% if i.step %} step="{{ i.step }}" {% endif %}
-                               {% if i.min %} min="{{ i.min }}" {% endif %}
-                               {% if i.max %} max="{{ i.max }}" {% endif %}
-                               class="form-control"
-                               id="input{{ i.label }}"
-                               name="input{{ i.label }}"
-                               placeholder="{{ i.label }}">
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-default">Dodaj</button>
+                        </div>
                     </div>
-                </div>
-            {% endfor %}
-
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-default">Dodaj</button>
-                </div>
-            </div>
-        </form>
-    {% endif %}
+                </form>
+            {% endif %}
+        </div>
+    </div>
 
 {% endblock %}
