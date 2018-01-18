@@ -2,6 +2,10 @@ class RequestReader:
     def __init__(self):
         pass
 
+    def read_from_index(self, form):
+        return [form['inputLogin'],
+                form['inputHaslo']]
+
     def read_from_products(self, form):
         return [form['inputNazwa'],
                 float(form['inputCena']),

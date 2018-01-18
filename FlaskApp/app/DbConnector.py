@@ -44,3 +44,11 @@ class DbConnector:
 
     def add_order(self, values):
         self.__call_procedure('DODAJ_ZAMOWIENIE', values)
+
+    def login_worker(self, values):
+        self.__call_procedure('ZALOGUJ_PRACOWNIKA', values)
+        return self.__cursor.fetchone()
+
+    def login_client(self, values):
+        self.__call_procedure('ZALOGUJ_KLIENTA', values)
+        return self.__cursor.fetchone()

@@ -3,19 +3,31 @@
 
 {% block navbar %}
     <div class="navbar navbar-inverse default">
-        <div class="container-fluid text-center">
-            {% for b in buttons %}
-                {% if b.link != None %}
-                    <a href="{{ b.link }}" class="btn btn-default">{{ b.text }}</a>
-                {% else %}
-                    <a class="btn btn-default">{{ b.text }}</a>
-                {% endif %}
-            {% endfor %}
+        <div class="container-fluid text-center col-md-8 col-md-offset-2">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">BD2</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    {% for b in buttons %}
+                        <li><a href="{{ b.link }}">{{ b.text }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
     </div>
 {% endblock %}
 
 {% block content %}
+    <div class="row">
+        <p class="text-center">
+            {% if user.login %}
+                Zalogowany jako {{ user.login }} ({% if user.is_client %}klient{% endif %}{% if user.is_worker %}pracownik{% endif %})
+            {% else %}
+                Nie zalogowany
+            {% endif %}
+        </p>
+    </div>
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <h3>{{ body_content }}</h3>
@@ -37,8 +49,8 @@
                 </table>
             {% endfor %}
         </div>
-        <div class="col-md-6 col-md-offset-3">
-            {% if inputs|length > 0 %}
+        {% if inputs|length > 0 %}
+            <div class="col-md-6 col-md-offset-3">
                 <form class="form-horizontal" action="{{ request.path }}" method="post">
                     {% for i in inputs %}
                         <div class="form-group">
@@ -62,8 +74,8 @@
                         </div>
                     </div>
                 </form>
-            {% endif %}
-        </div>
+            </div>
+        {% endif %}
     </div>
 
 {% endblock %}
